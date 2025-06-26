@@ -1,5 +1,6 @@
 package com.codercoach.springbootdeveloper.config.jwt;
 
+import com.codercoach.springbootdeveloper.SpringBootDeveloperApplication;
 import com.codercoach.springbootdeveloper.domain.User;
 import com.codercoach.springbootdeveloper.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest // 테스트용 애플리케이션 컨텍스트
+@SpringBootTest(classes = SpringBootDeveloperApplication.class) // 테스트용 애플리케이션 컨텍스트
 class TokenProviderTest { // 자바에서 public 키워드를 생략하면 기본 접근 제어자(default access modifier), 즉 package-private이 됩니다.
     @Autowired
     private TokenProvider tokenProvider;
