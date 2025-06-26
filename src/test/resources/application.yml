@@ -20,6 +20,17 @@ spring:
     console:
       enabled: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test
+            client-secret: test
+            scope:
+              - email
+              - profile
+
 jwt: # 테스트에 사용되므로 필수 추가
   issuer: test-issuer
   secret-key: test-secret-key
