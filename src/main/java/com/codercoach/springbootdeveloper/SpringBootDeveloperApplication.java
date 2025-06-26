@@ -2,10 +2,12 @@ package com.codercoach.springbootdeveloper;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing // created_at, updated_at 자동 업데이트
 @SpringBootApplication // 스프링 부트 관련 설정
+@ConfigurationPropertiesScan  // 이걸로 @ConfigurationProperties가 붙은 클래스 스캔
 public class SpringBootDeveloperApplication {
     public static void main(String[] args) {
         // 에러 리포트
