@@ -88,6 +88,9 @@ jobs:
       - name: Set artifact # 배포용 패키지 경로 저장
         run: echo "artifact=$(ls ./build/libs)" >> $GITHUB_ENV
 
+      - name: Debug current time
+        run: echo ${{ steps.current-time.outputs.formattedTime }}
+
       - name: Beanstalk Deploy # 빈스토크 배포
         uses: einaregilsson/beanstalk-deploy@v20
         with:
@@ -95,6 +98,6 @@ jobs:
             aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             application_name: coder-coach
             environment_name: coder-coach-env
-            version-label: github-action-${{ steps.current-time.outputs.formattedTime }}
+            version-label: github_action_${{ steps.current-time.outputs.formattedTime }}
             region: ap-northeast-1
             deployment_package: ./build/libs/${{ env.artifact }}
