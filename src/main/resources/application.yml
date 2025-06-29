@@ -1,0 +1,37 @@
+spring:
+  jpa:
+    # 전송 쿼리 확인
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+    # 테이블 생성 후에 data.sql 실행
+    defer-datasource-initialization: true
+
+  # 데이터베이스 정보 추가
+  # AWS를 사용하므로 코멘트 아웃
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+
+  # H2 콘솔 활성화
+  h2:
+    console:
+      enabled: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+
+jwt:
+  issuer: test@test.com
+  secret_key: test-test
+  # Spring Boot의 @ConfigurationProperties는 스네이크 케이스 (secret_key)를 카멜 케이스 (secretKey)로 자동 변환해줍니다.
