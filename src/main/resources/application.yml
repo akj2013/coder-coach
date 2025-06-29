@@ -31,6 +31,9 @@ spring:
               - email
               - profile
 
+server:
+    port: 5000
+
 jwt:
   issuer: test@test.com
   secret_key: test-test
