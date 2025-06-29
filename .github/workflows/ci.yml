@@ -77,6 +77,9 @@ jobs:
 
       - name: Build with Gradle # Gradle을 사용해 프로젝트를 클린 후 빌드합니다.
         run: ./gradlew clean build # clean: 기존 빌드 결과물 제거 / build: 새로 빌드 실행 (컴파일 + 테스트 포함)
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
       - name: Get current time # 현재시간 가져오기
         uses: josStorer/get-current-time@v2.0.2

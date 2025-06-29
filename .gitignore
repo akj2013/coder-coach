@@ -42,7 +42,7 @@ bin/
 .DS_Store
 
 ### 환경 설정 ###
-application.yml
+#application.yml
 .env
 .idea/
 
