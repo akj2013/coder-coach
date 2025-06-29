@@ -93,7 +93,7 @@ jobs:
         with:
             aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            applictaion_name: coder-coach
+            application_name: coder-coach
             environment_name: coder-coach-env
             version-label: github-action-${{ steps.current-time.outputs.formattedTime }}
             region: ap-northeast-1
