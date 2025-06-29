@@ -53,8 +53,15 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     // OAuth2를 사용하기 위한 스타터 추가
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    // PostgreSQL 드라이버 추가
+    implementation("org.postgresql:postgresql")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+// 플레인 JAR 생성 방지 설정 방법
+tasks.getByName<Jar>("jar") {
+    enabled = false
 }

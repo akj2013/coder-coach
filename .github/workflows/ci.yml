@@ -1,5 +1,58 @@
-# 워크플로우의 이름 지정
-name: CI
+#  🧱 Jobs - build
+#    build는 하나의 Job 이름으로, 안에는 여러 단계(Step)가 있습니다. 각각 순서대로 실행됩니다.
+#
+#    1. ✅ Set up job
+#    GitHub Actions가 빌드를 위한 **런타임 환경 (가상 머신)**을 세팅합니다.
+#
+#  예: Ubuntu, Java 설치 환경 등 초기 세팅을 포함합니다.
+#
+#    2. ✅ Run actions/checkout@v3
+#    **코드를 GitHub Repository에서 checkout(다운로드)**합니다.
+#
+#    빌드/테스트를 위해 소스코드를 로컬 머신에 가져옵니다.
+#
+#    3. ✅ Run actions/setup-java@v3
+#    Java 개발 환경 설정 단계입니다.
+#
+#    .java-version, build.gradle.kts, .tool-versions 등의 설정에 따라 OpenJDK 또는 지정한 버전을 설치합니다.
+#
+#    Maven이나 Gradle이 Java 기반이므로 필수입니다.
+#
+#    4. ✅ Grant execute permission for gradlew
+#    bash
+#    복사
+#    편집
+#    chmod +x ./gradlew
+#    gradlew 스크립트에 실행 권한을 부여합니다 (Unix/Linux 환경에서 필수).
+#
+#    gradlew는 Gradle Wrapper로, CI 환경에서도 로컬 설치 없이 빌드 가능하게 해 줍니다.
+#
+#    5. ✅ Build with Gradle
+#    bash
+#    복사
+#    편집
+#    ./gradlew build
+#    테스트 포함한 전체 프로젝트 빌드를 수행합니다.
+#
+#    test도 이 단계에서 자동으로 실행되며, 실패 시 Job이 중단됩니다.
+#
+#    application.yml 설정이 제대로 되어 있었기 때문에 성공한 것.
+#
+#    6. ✅ Post Run actions/setup-java@v3
+#    자바 설정 후의 정리(Post step) 작업입니다.
+#
+#    임시로 설치된 캐시 정리, 환경 변수 정리 등을 포함할 수 있습니다.
+#
+#    7. ✅ Post Run actions/checkout@v3
+#    Git checkout 이후의 정리(Post step).
+#
+#    보통은 임시 Git 설정이나 workspace cleanup을 포함합니다.
+#
+#    8. ✅ Complete job
+#    전체 빌드 프로세스가 정상 종료되었음을 나타냅니다.
+
+  # 워크플로우의 이름 지정
+name: CI/CD
 
 # 워크플로우가 시작될 조건 지정
 on:
@@ -24,3 +77,24 @@ jobs:
 
       - name: Build with Gradle # Gradle을 사용해 프로젝트를 클린 후 빌드합니다.
         run: ./gradlew clean build # clean: 기존 빌드 결과물 제거 / build: 새로 빌드 실행 (컴파일 + 테스트 포함)
+
+      - name: Get current time # 현재시간 가져오기
+        uses: josStorer/get-current-time@/v2.0.2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+
+      - name: Set artifact # 배포용 패키지 경로 저장
+        run: echo "artifact=$(ls ./build/libs)" >> $GITHUB_ENV
+
+      - name: Beanstalk Deploy # 빈스토크 배포
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+            aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            applictaion_name: coder-coach
+            environment_name: coder-coach-env
+            version-label: github-action-${{ steps.current-time.outputs.formattedTime }}
+            region: ap-northeast-1
+            deployment_package: ./build/libs/${{ env.artifact }}
