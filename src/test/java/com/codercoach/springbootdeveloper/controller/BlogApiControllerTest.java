@@ -107,6 +107,10 @@ class BlogApiControllerTest {
         assertThat(articles.size()).isEqualTo(1);
         assertThat(articles.get(0).getTitle()).isEqualTo(title);
         assertThat(articles.get(0).getContent()).isEqualTo(content);
+        // 신규 생성 시간과 최종 수정 시간이 NULL이 아니고 서로의 값이 같다.
+        assertThat(articles.get(0).getCreatedAt()).isNotNull();
+        assertThat(articles.get(0).getUpdatedAt()).isNotNull();
+        assertThat(articles.get(0).getCreatedAt().isEqual(articles.get(0).getUpdatedAt()));
     }
 
     @DisplayName("findAllArticles: 블로그 글 목록 조회에 성공한다.")
