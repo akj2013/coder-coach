@@ -10,7 +10,8 @@ spring:
 
   # 데이터베이스 정보 추가
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE # <== 메모리 DB
+    # DB_CLOSE_DELAY=-1 <== 연결이 끊겨도 DB를 유지하지만, 앱 종료시 전체 메모리 DB는 사라집니다.
     driver-class-name: org.h2.Driver   # CI에서 명확히 지정해 준다.
     username: sa
     password:       # 빈 값이라도 선언 필요
