@@ -8,7 +8,7 @@ public class SbAdmin2ViewController {
 
     @GetMapping(value = "/sbAdmin2/index")
     public String index() {
-        return "/sbAdmin2/index";
+        return "sbAdmin2/index";
     }
 
     @GetMapping(value = "/sbAdmin2/login")
