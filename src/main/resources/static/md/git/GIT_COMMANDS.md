@@ -63,7 +63,8 @@ git remote add origin https://github.com/username/repo.git
 ## 6. 🚀 푸시 & 풀
 ```bash
 git push -u origin main
-git pull origin main
+git pull origin main # 원격 저장소의 변경 내역을 가져와 작업 브랜치에 병합 작업까지 완료한다.
+git fetch origin main # 원격 저장소의 변경 내역만 가져올 뿐 병합 작업은 하지 않는다.
 ```
 
 ***
