@@ -4,6 +4,7 @@ import com.codercoach.springbootdeveloper.domain.Article;
 import com.codercoach.springbootdeveloper.dto.ArticleListViewResponse;
 import com.codercoach.springbootdeveloper.dto.ArticleViewResponse;
 import com.codercoach.springbootdeveloper.service.BlogService;
+import com.example.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,12 @@ public class BlogViewController {
     @GetMapping(value = "/articles/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getArticle(@PathVariable Long id, Model model) {
         Article article = blogService.findById(id);
+
+        // Markdown → HTML 변환
+        String html = MarkdownUtil.toHtml(article.getContent());
+
         model.addAttribute("article", new ArticleViewResponse(article));
+        model.addAttribute("contentHtml", html);
 
         return "article";
     }

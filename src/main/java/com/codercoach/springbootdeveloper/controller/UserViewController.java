@@ -16,13 +16,19 @@ public class UserViewController {
 //    public String login() {
 //        return "login";
 //    }
+//    public String login() {
+//        return "oauthLogin";
+//    }
     public String login() {
-        return "oauthLogin";
+        return "newLogin";
     }
-
     // 회원가입 화면
     @GetMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String signup() {
         return "signup";
     }
+
+    // index 화면
+    @GetMapping(value = "/index")
+    public String index() { return "index"; }
 }

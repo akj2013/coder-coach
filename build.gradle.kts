@@ -1,5 +1,8 @@
 plugins {
+    // Java 지원
     id("java")
+    // Kotlin JVM 지원 추가 .kt (Kotlin 파일) 사용
+    kotlin("jvm") version "1.9.10"
     /**
      * 최초 생성은 그레이들 프로젝트로 생성했기에
      * 그레이들 설정 파일을 수정하여 스프링 부트 3 프로젝트로 수정한다.
@@ -55,6 +58,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     // PostgreSQL 드라이버 추가
     implementation("org.postgresql:postgresql")
+    // flexmark Markdown parser (.md파일을 컨트롤러에서 html로 파싱)
+    implementation("com.vladsch.flexmark:flexmark-all:0.64.0")
 }
 
 tasks.test {
@@ -64,4 +69,11 @@ tasks.test {
 // 플레인 JAR 생성 방지 설정 방법
 tasks.getByName<Jar>("jar") {
     enabled = false
+}
+
+// Kotlin 컴파일 설정 추가 (선택적이지만 권장)
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17" // 자바와 동일하게 설정
+    }
 }
