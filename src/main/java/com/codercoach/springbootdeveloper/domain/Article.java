@@ -24,7 +24,7 @@ public class Article {
     @Column(name = "title", nullable = false) // 'title' 이라는 not null 컬럼과 매핑
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "text") // columnDefinition 명시적 선언
     private String content;
 
     @CreatedDate // 엔티티가 생성될 때 생성 시간 지정

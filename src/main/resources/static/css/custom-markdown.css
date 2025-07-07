@@ -1,0 +1,9 @@
+/* .md 본문 */
+.markdown-body {
+  background-color: #f8f9fc; /* 배경색을 sbAdmin2 배경색과 일치하도록 */
+}
+
+/* .md 본문 속 코드 태그 */
+.markdown-body pre {
+  background-color: #eaecf4; /* 배경색을 sbAdmin2 배경색보다 진한 회색으로 */
+}

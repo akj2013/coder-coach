@@ -43,6 +43,8 @@ bin/
 
 ### 환경 설정 ###
 #application.yml
+# application-dev.yml 무시
+/src/main/resources/application-dev.yml
 .env
 .idea/
 

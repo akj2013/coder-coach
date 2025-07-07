@@ -57,6 +57,23 @@ newArticle.html
     addEventListener()를 붙이기 전에 존재 여부를 확인해서 에러 방지하는 것.
 */
 
+// 전역 변수로 선언
+let editor = null;
+
+// DOM이 모두 로드된 뒤 Toast UI Editor 생성
+window.addEventListener("DOMContentLoaded", () => {
+    const editorElement = document.querySelector("#editor");
+    if (editorElement) {
+        editor = new toastui.Editor({
+            el: editorElement,
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            initialValue: document.getElementById("content")?.value || ""
+        });
+    }
+});
+
 // 삭제 기능
 const deleteButton = document.getElementById('delete-btn');
 
@@ -93,10 +110,12 @@ if (modifyButton) {
     modifyButton.addEventListener('click', (event) => {
         let params = new URLSearchParams(location.search);
         let id = params.get('id');
+        const markdown = editor.getMarkdown();
+        document.getElementById("content").value = markdown;
 
         body = JSON.stringify({
             title: document.getElementById("title").value,
-            content: document.getElementById("content").value,
+            content: markdown,
         });
 
         function success() {
@@ -132,9 +151,11 @@ const createButton = document.getElementById("create-btn");
 
 if (createButton) {
     createButton.addEventListener("click", (event) => {
+        const markdown = editor.getMarkdown();
+        document.getElementById("content").value = markdown;
         body = JSON.stringify({
             title: document.getElementById("title").value,
-            content: document.getElementById("content").value,
+            content: markdown,
         });
         function success() {
             alert("등록 완료되었습니다.");
