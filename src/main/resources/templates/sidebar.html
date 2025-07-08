@@ -17,10 +17,11 @@
                 <hr class="sidebar-divider my-0">
 
                 <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="index">
+                <li class="nav-item">
+                    <a class="nav-link" th:onclick="|location.href='@{/index}'|" style="cursor:pointer;">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
+                        <span>Dashboard</span>
+                    </a>
                 </li>
 
                 <!-- Divider -->
@@ -41,8 +42,8 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Custom Components:</h6>
-                            <a class="collapse-item" href="buttons">Buttons</a>
-                            <a class="collapse-item" href="cards">Cards</a>
+                            <a class="collapse-item" th:onclick="|location.href='@{/sbAdmin2/buttons}'|" style="cursor:pointer;">Buttons</a>
+                            <a class="collapse-item" th:onclick="|location.href='@{/sbAdmin2/cards}'|" style="cursor:pointer;">Cards</a>
                         </div>
                     </div>
                 </li>
@@ -58,10 +59,10 @@
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color">Colors</a>
-                            <a class="collapse-item" href="utilities-border">Borders</a>
-                            <a class="collapse-item" href="utilities-animation">Animations</a>
-                            <a class="collapse-item" href="utilities-other">Other</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/utilities-color}">Colors</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/utilities-border}">Borders</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/utilities-animation}">Animations</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/utilities-other}">Other</a>
                         </div>
                     </div>
                 </li>
@@ -84,29 +85,48 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Login Screens:</h6>
-                            <a class="collapse-item" href="login">Login</a>
-                            <a class="collapse-item" href="register">Register</a>
-                            <a class="collapse-item" href="forgot-password">Forgot Password</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/login}">Login</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/register}">Register</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/forgot-password}">Forgot Password</a>
                             <div class="collapse-divider"></div>
                             <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="404">404 Page</a>
-                            <a class="collapse-item" href="blank">Blank Page</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/404}">404 Page</a>
+                            <a class="collapse-item" th:href="@{/sbAdmin2/blank}">Blank Page</a>
                         </div>
                     </div>
                 </li>
 
                 <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/charts}">
+                    <a class="nav-link" th:href="@{/sbAdmin2/charts}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Charts</span></a>
                 </li>
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
-                    <a class="nav-link" href="tables">
+                    <a class="nav-link" th:href="@{/sbAdmin2/tables}">
                         <i class="fas fa-fw fa-table"></i>
                         <span>Tables</span></a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Addons
+                </div>
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item" th:classappend="${currentUri != null and currentUri.startsWith('/articles')} ? ' active'">
+                    <a class="nav-link" th:href="@{/articles}">
+                        <img src="/img/fontawesome/markdown-brands-solid.svg"
+                             alt="Markdown Icon"
+                             width="30"
+                             height="25"
+                             style="vertical-align: middle; margin-right: 8px;">
+                        <span>Articles</span></a>
                 </li>
 
                 <!-- Divider -->

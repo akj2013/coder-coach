@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="current-uri" th:content="${currentUri}">
 
     <title>CoderCoach - articleList</title>
 
@@ -14,11 +15,33 @@
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- 자체 제작 custom sb admin 2 CSS -->
+    <link href="/css/custom-sb-admin-2.css" rel="stylesheet">
+
+    <!-- .md 관련 start -->
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- GitHub Markdown 스타일 적용 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" />
+    <!-- ProseMirror용 CSS 추가 (.md를 출력하기 위한 Toast UI Editor 의존성을 위해 추가)  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prosemirror-view/style/prosemirror.css">
+    <!-- CSS 명시적 로드 추가 -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <!-- ✅ Highlight.js CSS (예: GitHub 스타일) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <!-- ✅ Highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- ✅ 언어별 지원 (예: Java) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <!-- ✅ 자동 실행 -->
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="/css/custom-markdown.css">
+    <!-- .md 관련 end -->
 </head>
-<body>
+<body th:attr="data-current-uri=${currentUri}"> <!-- data-* 속성에 삽입 (JS 접근용) -->
 <div id="wrapper">
     <!-- Sidebar -->
     <div th:replace="sidebar :: sidebar"></div>
@@ -28,39 +51,73 @@
             <!-- Topbar -->
             <div th:replace="header :: header"></div>
             <!-- main -->
-            <div class="p-5 mb-5 text-center bg-light">
+            <div class="p-5 mb-5 text-center bg-light border-bottom-dark">
                 <h1 class="mb-3">Blog 게시판</h1>
                 <h4 class="mb-3">블로그 리스트 화면</h4>
             </div>
-            <div class="container">
+
+            <hr style="border: none; border-top: 1px solid #ccc; margin: 1rem 0;" />
+
+            <div class="container-fluid mt-5">
                 <!--
-                  Thymeleaf의 리터럴 치환 기능 + URL 표현식 + JavaScript 구문
-                  ✅ 1. th:onclick: Thymeleaf에서 onclick 속성을 동적으로 구성
-                    Thymeleaf의 th:* 속성은 HTML 속성을 서버에서 동적으로 렌더링해주는 역할을 합니다.
-                    이 경우, onclick 속성 값을 서버에서 가공한 결과로 만들어 줍니다.
-                    결과는 렌더링 시 일반적인 HTML 속성으로 바뀝니다.
-                  ✅ 2. | ... |: 리터럴 치환 (Literal substitution)
-                    | ... | 구문은 텍스트 안에 변수나 표현식을 삽입할 수 있게 하는 Thymeleaf 템플릿 리터럴 문법입니다.
-                    이 안의 @{}는 Thymeleaf가 처리하고,
-                    나머지 "location.href='...'"`는 JavaScript 코드로 처리됩니다.
-                  ✅ 3. @{...}: Thymeleaf의 URL 표현식
-                    Spring MVC의 URL 매핑 주소를 자동으로 생성해줍니다.
-                    예: /new-article → context path가 /myapp이면 /myapp/new-article로 렌더링됨
-                -->
+                      Thymeleaf의 리터럴 치환 기능 + URL 표현식 + JavaScript 구문
+                      ✅ 1. th:onclick: Thymeleaf에서 onclick 속성을 동적으로 구성
+                        Thymeleaf의 th:* 속성은 HTML 속성을 서버에서 동적으로 렌더링해주는 역할을 합니다.
+                        이 경우, onclick 속성 값을 서버에서 가공한 결과로 만들어 줍니다.
+                        결과는 렌더링 시 일반적인 HTML 속성으로 바뀝니다.
+                      ✅ 2. | ... |: 리터럴 치환 (Literal substitution)
+                        | ... | 구문은 텍스트 안에 변수나 표현식을 삽입할 수 있게 하는 Thymeleaf 템플릿 리터럴 문법입니다.
+                        이 안의 @{}는 Thymeleaf가 처리하고,
+                        나머지 "location.href='...'"`는 JavaScript 코드로 처리됩니다.
+                      ✅ 3. @{...}: Thymeleaf의 URL 표현식
+                        Spring MVC의 URL 매핑 주소를 자동으로 생성해줍니다.
+                        예: /new-article → context path가 /myapp이면 /myapp/new-article로 렌더링됨
+                    -->
                 <button type="button" id="create-btn" th:onclick="|location.href='@{/new-article}'|"
                         class="btn btn-secondary btn-sm mb-3">글 등록
                 </button>
-                <div class="col-md-6" th:each="item : ${articles}"> <!-- articles 갯수만큼 반복 -->
-                    <div class="card">
-                        <div class="card-header" th:text="${item.id}"> <!-- item의 id 출력 -->
+
+                <!--
+                | 요소                            | 역할                               |
+                | ----------------------------- | -------------------------------- |
+                | `style="height: 400px;"`      | 카드 전체 높이를 고정                     |
+                | `.d-flex .flex-column`        | 카드 내부를 세로 정렬                     |
+                | `.flex-grow-1 .overflow-auto` | `markdown-body` 영역이 넘치면 스크롤 되게 함 |
+                | `min-height: 0;`              | 자식 요소 스크롤 허용용 (Flex에서 중요!)       |
+                | `mt-auto`                     | 버튼을 아래쪽에 고정                      |
+                | 클래스                      | 역할             |
+                | ------------------------ | -------------- |
+                | `mb-4` (col에 적용)         | 카드 간의 세로 간격 확보 |
+                | `mt-3` (버튼에 적용)          | 본문 아래 여백       |
+                | `h-100`, `min-height: 0` | 카드와 내부 스크롤 안정화 |
+
+                item.title
+                bg-primary: 파란 배경
+                text-white: 흰 글자
+                fw-bold: 굵은 글씨
+                py-2 px-3: 안쪽 여백
+                rounded: 모서리 둥글게
+                -->
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4" th:each="item : ${articles}"> <!-- articles 갯수만큼 반복 -->
+                        <div class="card" style="height: 800px">
+                            <div class="card-header border-bottom-primary" th:text="${item.id}"> <!-- item의 id 출력 -->
+                            </div>
+                            <div class="card-body d-flex flex-column overflow-hidden">
+                                <h5 class="card-title fw-bold py-2 px-3 rounded shadow-sm"
+                                    style="background-color: #e3f2fd; color: #0d6efd;"
+                                    th:text="${item.title}">
+                                </h5>
+                                <!-- 스크롤 영역 -->
+                                <div class="markdown-body fs-5 mb-4 flex-grow-1 overflow-auto" style="min-height: 0;" th:utext="${item.contentHtml}"></div>
+                                <!-- 상세화면 버튼을 카드 하단에 고정 -->
+                                <div class="text-end">
+                                <a th:href="@{/articles/{id}(id=${item.id})}" class="btn btn-primary mt-3 w-auto">상세화면</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${item.title}"></h5>
-                            <p class="card-text" th:text="${item.content}"></p>
-                            <a th:href="@{/articles/{id}(id=${item.id})}" class="btn btn-primary">보러 가기</a>
-                        </div>
+                        <br>
                     </div>
-                    <br>
                 </div>
 
                 <button type="button" class="btn btn-secondary" id="logout-btn">로그아웃</button>
@@ -72,7 +129,9 @@
 </div>
 
 
-<!-- article.js 파일 추가 -->
+<!-- ✅ 1. Toast UI Editor 먼저 로드 -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!-- ✅ 2. article.js는 그 다음에 로드 -->
 <script src="/js/article.js"></script>
 <!-- token.js 파일 추가 -->
 <script src="/js/token.js"></script>
@@ -92,5 +151,10 @@
 <!-- Page level custom scripts -->
 <script src="/js/demo/chart-area-demo.js"></script>
 <script src="/js/demo/chart-pie-demo.js"></script>
+<!-- <meta> 태그나 data-* 속성에 넣기 (JS에서도 활용 가능) -->
+<script th:inline="javascript">
+    const currentUri = [[${currentUri}]];
+    console.log("Current URI from model:", currentUri);
+</script>
 </body>
 </html>
