@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="writer" content="">
+    <meta name="current-uri" th:content="${currentUri}">
+
+    <title>CoderCoach - boardList</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- 자체 제작 custom sb admin 2 CSS -->
+    <link href="/css/custom-sb-admin-2.css" rel="stylesheet">
+</head>
+<body th:attr="data-current-uri=${currentUri}"> <!-- data-* 속성에 삽입 (JS 접근용) -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="sidebar :: sidebar"></div>
+    <!-- wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- Topbar -->
+            <div th:replace="header :: header"></div>
+            <!-- main -->
+            <div class="p-5 mb-5 text-center bg-light border-bottom-dark">
+                <h1 class="mb-3">Board 게시판</h1>
+                <h4 class="mb-3">Board 리스트 화면</h4>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid #ccc; margin: 1rem 0;"/>
+            
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board, stat : ${boardPage.content}">
+                    <td th:text="${stat.count}"></td> <!-- 번호 (1부터 시작) -->
+                    <td>
+                        <a th:href="@{/board(bno=${board.bno})}" th:text="${board.title}"></a>
+                    </td>
+                    <td th:text="${board.writer}"></td>
+                    <td th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 페이지네이션 -->
+            <div>
+                <span th:if="${boardPage.hasPrevious()}">
+                    <a th:href="@{/board/boardList(page=${boardPage.number}, size=${boardPage.size})}">이전</a>
+                </span>
+
+                <span th:each="i : ${#numbers.sequence(1, boardPage.totalPages)}">
+                    <a th:href="@{/board/list(page=${i}, size=${boardPage.size})}"
+                       th:text="${i}"
+                       th:class="${boardPage.number + 1 == i} ? 'current' : ''"></a>
+                </span>
+
+                <span th:if="${boardPage.hasNext()}">
+                    <a th:href="@{/board/boardList(page=${boardPage.number + 2}, size=${boardPage.size})}">다음</a>
+                </span>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div th:replace="footer :: footer"></div>
+    </div>
+</div>
+<!-- token.js 파일 추가 -->
+<script src="/js/token.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/js/demo/chart-area-demo.js"></script>
+<script src="/js/demo/chart-pie-demo.js"></script>
+<!-- <meta> 태그나 data-* 속성에 넣기 (JS에서도 활용 가능) -->
+<script th:inline="javascript">
+    const currentUri = [[${currentUri}]];
+    console.log("Current URI from model:", currentUri);
+</script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 package com.codercoach.springbootdeveloper.service;
 
 import com.codercoach.springbootdeveloper.domain.Article;
-import com.codercoach.springbootdeveloper.domain.User;
 import com.codercoach.springbootdeveloper.dto.AddArticleRequest;
 import com.codercoach.springbootdeveloper.dto.UpdateArticleRequest;
 import com.codercoach.springbootdeveloper.repository.BlogRepository;

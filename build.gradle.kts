@@ -1,3 +1,4 @@
+// Gradle의 build.gradle.kts는 당신의 프로젝트를 빌드, 실행, 테스트하는 모든 작업을 정의합니다.
 plugins {
     // Java 지원
     id("java")
@@ -16,13 +17,15 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"   // 스프링의 의존성을 자동 관리
 }
 
-group = "com.codercoach"
-version = "1.0-SNAPSHOT"
+// 이 프로젝트가 jar로 배포되면 "com.codercoach:project-name:1.0-SNAPSHOT" 형태의 ID를 가지게 됩니다.
+group = "com.codercoach" // 프로젝트의 그룹 ID 설정. Maven Central이나 로컬 저장소에서 식별할 때 사용하는 이름
+version = "1.0-SNAPSHOT" // 프로젝트의 버전 정보 설정. SNAPSHOT은 개발 중인 버전
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17            // 자바 버전 입력
 }
 
+// 외부 라이브러리를 가져올 저장소(리포지토리) 설정
 repositories {
     mavenCentral()
 }
@@ -62,6 +65,7 @@ dependencies {
     implementation("com.vladsch.flexmark:flexmark-all:0.64.0")
 }
 
+// Gradle의 test 작업에서 **JUnit Platform (JUnit 5)**을 사용하도록 설정
 tasks.test {
     useJUnitPlatform()
 }
